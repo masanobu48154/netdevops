@@ -1,0 +1,28 @@
+---
+# tasks file for core01
+- name: prepare ssh
+  telnet:
+    user: virl
+    password: virl
+    login_prompt: "Username: "
+    prompts:
+      - "[>|#]|Password: "
+    command:
+      - terminal length 0
+      - show run
+      - configure terminal
+      - crypto key generate rsa mo 2048
+    changed_when: False
+  register: d_result
+- name: debug
+  debug:
+    var: d_result.output
+#- name: log export
+#  local_action:
+#    module: copy
+#    owner: root
+#    group: root
+#    mode: 0644
+#    dest: "/root/netdevops/prepare_ssh.log"
+#    content: "{{ d_result.output[3] }}"
+#  changed_when: False

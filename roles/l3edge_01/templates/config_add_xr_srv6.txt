@@ -1,0 +1,58 @@
+router isis 100
+ address-family ipv4 unicast
+  no segment-routing mpls
+  !
+ !
+ address-family ipv6 unicast
+  segment-routing srv6
+   locator myLoc1
+   !
+  ! 
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+   no prefix-sid index 3
+   !
+  !
+ !
+! 
+router bgp 65432
+ neighbor 10.0.0.4
+  no address-family vpnv4 unicast
+ !
+ vrf A
+  address-family ipv4 unicast
+   segment-routing srv6
+    locator myLoc1
+     alloc mode per-vrf
+     !
+    !
+   !
+  !
+ !
+ vrf B
+  address-family ipv4 unicast
+   segment-routing srv6
+    locator myLoc1
+     alloc mode per-vrf
+     !
+    !
+   ! 
+  !
+ !
+!
+segment-routing
+ no global-block 16000 18000
+ srv6
+  encapsulation
+   source-address fc00:10::3
+   !
+  !
+  locators
+   locator myLoc1
+    prefix fc00:cafe:3:3::/64
+   !
+  !
+ !
+! 
+

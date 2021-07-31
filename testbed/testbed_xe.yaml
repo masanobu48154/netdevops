@@ -1,0 +1,278 @@
+testbed:
+  name: 'testbed'
+devices:
+  core_01:
+    connections:
+      defaults:
+        via: telnet
+      cli:
+        ip: 172.16.1.61
+        protocol: ssh
+      telnet:
+        ip: 172.16.1.61
+        protocol: telnet
+        port: 23
+      netconf:
+        ip: 172.16.1.61
+        port: 830
+        class: yang.connector.Netconf
+        credentials:
+          netconf:
+            username: virl
+            password: virl
+    credentials:
+      default:
+        password: virl
+        username: virl
+      enable:
+        password: virl
+    os: iosxe
+    platform: csr1000v
+    alias: uut
+    type: router
+  core_02:
+    connections:
+      defaults:
+        via: telnet
+      cli:
+        ip: 172.16.1.62
+        protocol: ssh
+      telnet:
+        ip: 172.16.1.62
+        protocol: telnet
+        port: 23
+      netconf:
+        ip: 172.16.1.62
+        port: 830
+        class: yang.connector.Netconf
+        credentials:
+          netconf:
+            username: virl
+            password: virl
+    credentials:
+      default:
+        password: virl
+        username: virl
+      enable:
+        password: virl
+    os: iosxe
+    platform: csr1000v
+    alias: core_02
+    type: router
+  l3edge_01:
+    connections:
+      defaults:
+        via: telnet
+      cli:
+        ip: 172.16.1.63
+        protocol: ssh
+      telnet:
+        ip: 172.16.1.63
+        protocol: telnet
+        port: 23
+      netconf:
+        ip: 172.16.1.63
+        port: 830
+        class: yang.connector.Netconf
+        credentials:
+          netconf:
+            username: virl
+            password: virl
+    credentials:
+      default:
+        password: virl
+        username: virl
+      enable:
+        password: virl
+    os: iosxe
+    platform: csr1000v
+    alias: l3edge_01
+    type: router
+  l2edge_01:
+    connections:
+      defaults:
+        via: telnet
+      cli:
+        ip: 172.16.1.64
+        protocol: ssh
+      telnet:
+        ip: 172.16.1.64
+        protocol: telnet
+        port: 23
+      netconf:
+        ip: 172.16.1.64
+        port: 830
+        class: yang.connector.Netconf
+        credentials:
+          netconf:
+            username: virl
+            password: virl
+    credentials:
+      default:
+        password: virl
+        username: virl
+      enable:
+        password: virl
+    os: iosxe
+    platform: csr1000v
+    alias: l2edge_01
+    type: router
+  l2edge_02:
+    connections:
+      defaults:
+        via: telnet
+      cli:
+        ip: 172.16.1.65
+        protocol: ssh
+      telnet:
+        ip: 172.16.1.65
+        protocol: telnet
+        port: 23
+      netconf:
+        ip: 172.16.1.65
+        port: 830
+        class: yang.connector.Netconf
+        credentials:
+          netconf:
+            username: virl
+            password: virl
+    credentials:
+      default:
+        password: virl
+        username: virl
+      enable:
+        password: virl
+    os: iosxe
+    platform: csr1000v
+    alias: l2edge_02
+    type: router
+  l3edge_02:
+    connections:
+      defaults:
+        via: telnet
+      cli:
+        ip: 172.16.1.66
+        protocol: ssh
+      telnet:
+        ip: 172.16.1.66
+        protocol: telnet
+        port: 23
+      netconf:
+        ip: 172.16.1.66
+        port: 830
+        class: yang.connector.Netconf
+        credentials:
+          netconf:
+            username: virl
+            password: virl
+    credentials:
+      default:
+        password: virl
+        username: virl
+      enable:
+        password: virl
+    os: iosxe
+    platform: csr1000v
+    alias: l3edge_02
+    type: router
+topology:
+  core_01:
+    interfaces:
+      GiabitEthernet1:
+        alias: core_01-gig1
+        link: core_01-core_02
+        type: ethernet
+      GiabitEthernet2:
+        alias: core_01-gig2
+        link: core_01-l3edge_01
+        type: ethernet
+      GiabitEthernet3:
+        alias: core_01-gig3
+        link: core_01-l2edge_01
+        type: ethernet
+      GiabitEthernet4:
+        alias: core_01-gig4
+        link: core_01-l3edge_02
+        type: ethernet
+      GiabitEthernet5:
+        alias: core_01-gig5
+        link: core_01-l2edge_02
+        type: ethernet
+  core_02:
+    interfaces:
+      GiabitEthernet1:
+        alias: core_02-gig1
+        link: core_01-core_02
+        type: ethernet
+      GiabitEthernet2:
+        alias: core_02-gig2
+        link: core_02-l3edge_01
+        type: ethernet
+      GiabitEthernet3:
+        alias: core_02-gig3
+        link: core_02-l2edge_01
+        type: ethernet
+      GiabitEthernet4:
+        alias: core_02-gig4
+        link: core_02-l3edge_02
+        type: ethernet
+      GiabitEthernet5:
+        alias: core_02-gig5
+        link: core_02-l2edge_02
+        type: ethernet
+  l3edge_01:
+    interfaces:
+      GiabitEthernet1:
+        alias: l3edge_01-gig1
+        link: core_01-l3edge_01
+        type: ethernet
+      GiabitEthernet2:
+        alias: l3edge_01-gig2
+        link: core_02-l3edge_01
+        type: ethernet
+      GiabitEthernet3:
+        alias: l3edge_01-gig3
+        link: l3edge_01-l2edge_01
+        type: ethernet
+  l2edge_01:
+    interfaces:
+      GiabitEthernet1:
+        alias: l2edge_01-gig1
+        link: core_01-l2edge_01
+        type: ethernet
+      GiabitEthernet2:
+        alias: l2edge_01-gig2
+        link: core_02-l2edge_01
+        type: ethernet
+      GiabitEthernet3:
+        alias: l2edge_01-gig3
+        link: l3edge_01-l2edge_01
+        type: ethernet
+  l3edge_02:
+    interfaces:
+      GiabitEthernet1:
+        alias: l3edge_02-gig1
+        link: core_01-l3edge_02
+        type: ethernet
+      GiabitEthernet2:
+        alias: l3edge_02-gig2
+        link: core_02-l3edge_02
+        type: ethernet
+      GiabitEthernet3:
+        alias: l3edge_02-gig3
+        link: l3edge_02-l2edge_02
+        type: ethernet
+  l2edge_02:
+    interfaces:
+      GiabitEthernet1:
+        alias: l2edge_02-gig1
+        link: core_01-l2edge_02
+        type: ethernet
+      GiabitEthernet2:
+        alias: l2edge_02-gig2
+        link: core_02-l2edge_02
+        type: ethernet
+      GiabitEthernet3:
+        alias: l2edge_02-gig3
+        link: l3edge_02-l2edge_02
+        type: ethernet

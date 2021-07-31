@@ -1,0 +1,11 @@
+mpls traffic-eng tunnels
+interface GigabitEthernet1
+ mpls traffic-eng tunnels
+interface GigabitEthernet2
+ mpls traffic-eng tunnels
+interface GigabitEthernet3
+ mpls traffic-eng tunnels
+router ospf 100
+ mpls traffic-eng router-id Loopback0
+ mpls traffic-eng area 0
+

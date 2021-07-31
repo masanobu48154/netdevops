@@ -1,0 +1,14 @@
+---
+
+- hosts: core_02
+  gather_facts: False
+  connection: local
+  roles:
+    - core_02
+  vars:
+    cli:
+      host: "{{ inventory_hostname }}"
+      username: "{{ ansible_user }}"
+      password: "{{ ansible_password }}"
+      #authorize: true
+      #auth_pass: "{{ enable_password }}"

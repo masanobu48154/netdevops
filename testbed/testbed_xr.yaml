@@ -1,0 +1,168 @@
+testbed:
+  name: 'testbed'
+devices:
+  core_01:
+    connections:
+      defaults:
+        via: cli
+      cli:
+        ip: 172.16.1.61
+        protocol: ssh
+      telnet:
+        ip: 172.16.1.61
+        protocol: telnet
+        port: 23
+      netconf:
+        ip: 172.16.1.61
+        port: 830
+        class: yang.connector.Netconf
+        credentials:
+          netconf:
+            username: virl
+            password: virl
+    credentials:
+      default:
+        password: virl
+        username: virl
+      enable:
+        password: virl
+    os: iosxr
+    platform: iosxrv9k
+    alias: uut
+    type: router
+  core_02:
+    connections:
+      defaults:
+        via: cli
+      cli:
+        ip: 172.16.1.62
+        protocol: ssh
+      telnet:
+        ip: 172.16.1.62
+        protocol: telnet
+        port: 23
+      netconf:
+        ip: 172.16.1.62
+        port: 830
+        class: yang.connector.Netconf
+        credentials:
+          netconf:
+            username: virl
+            password: virl
+    credentials:
+      default:
+        password: virl
+        username: virl
+      enable:
+        password: virl
+    os: iosxr
+    platform: iosxrv9k
+    alias: core_02
+    type: router
+  l3edge_01:
+    connections:
+      defaults:
+        via: cli
+      cli:
+        ip: 172.16.1.63
+        protocol: ssh
+      telnet:
+        ip: 172.16.1.63
+        protocol: telnet
+        port: 23
+      netconf:
+        ip: 172.16.1.63
+        port: 830
+        class: yang.connector.Netconf
+        credentials:
+          netconf:
+            username: virl
+            password: virl
+    credentials:
+      default:
+        password: virl
+        username: virl
+      enable:
+        password: virl
+    os: iosxr
+    platform: iosxrv9k
+    alias: l3edge_01
+    type: router
+  l3edge_02:
+    connections:
+      defaults:
+        via: cli
+      cli:
+        ip: 172.16.1.64
+        protocol: ssh
+      telnet:
+        ip: 172.16.1.64
+        protocol: telnet
+        port: 23
+      netconf:
+        ip: 172.16.1.64
+        port: 830
+        class: yang.connector.Netconf
+        credentials:
+          netconf:
+            username: virl
+            password: virl
+    credentials:
+      default:
+        password: virl
+        username: virl
+      enable:
+        password: virl
+    os: iosxr
+    platform: iosxrv9k
+    alias: l3edge_02
+    type: router
+topology:
+  core_01:
+    interfaces:
+      GiabitEthernet0/0/0/0:
+        alias: core_01-gig1
+        link: core_01-core_02
+        type: ethernet
+      GiabitEthernet0/0/0/1:
+        alias: core_01-gig2
+        link: core_01-l3edge_01
+        type: ethernet
+      GiabitEthernet0/0/0/2:
+        alias: core_01-gig3
+        link: core_01-l3edge_02
+        type: ethernet
+  core_02:
+    interfaces:
+      GiabitEthernet0/0/0/0:
+        alias: core_02-gig1
+        link: core_01-core_02
+        type: ethernet
+      GiabitEthernet0/0/0/1:
+        alias: core_02-gig2
+        link: core_02-l3edge_01
+        type: ethernet
+      GiabitEthernet0/0/0/2:
+        alias: core_02-gig3
+        link: core_02-l3edge_02
+        type: ethernet
+  l3edge_01:
+    interfaces:
+      GiabitEthernet0/0/0/0:
+        alias: l3edge_01-gig1
+        link: core_01-l3edge_01
+        type: ethernet
+      GiabitEthernet0/0/0/1:
+        alias: l3edge_01-gig2
+        link: core_02-l3edge_01
+        type: ethernet
+  l3edge_02:
+    interfaces:
+      GiabitEthernet0/0/0/0:
+        alias: l3edge_02-gig1
+        link: core_01-l3edge_02
+        type: ethernet
+      GiabitEthernet0/0/0/1:
+        alias: l3edge_02-gig2
+        link: core_02-l3edge_02
+        type: ethernet

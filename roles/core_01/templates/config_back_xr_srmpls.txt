@@ -1,0 +1,18 @@
+segment-routing
+ global-block 16000 18000
+ no srv6
+!
+router isis 100
+ address-family ipv4 unicast
+  segment-routing mpls
+ !
+ address-family ipv6 unicast
+  no segment-routing srv6
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+   prefix-sid index 1
+  !
+ !
+!
+

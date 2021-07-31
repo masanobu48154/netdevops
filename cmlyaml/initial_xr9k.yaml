@@ -1,0 +1,1109 @@
+lab:
+  description: ''
+  notes: ''
+  timestamp: 1619854457.7818217
+  title: Default_xr9k
+  version: 0.0.4
+nodes:
+  - id: n0
+    label: xr9kv-0
+    node_definition: iosxrv9000
+    x: -250
+    y: 0
+    configuration: |+
+      hostname core_01
+      !
+      username virl
+       group root-lr
+       group cisco-support
+       password virl
+      !
+      vrf M
+       address-family ipv4 unicast
+       !
+      !
+      interface MgmtEth0/RP0/CPU0/0
+       no shutdown
+       vrf M
+       ipv4 address 172.16.1.61 255.255.255.0
+      !
+      router static
+       vrf M
+        address-family ipv4 unicast
+         0.0.0.0/0 172.16.1.1
+        !
+       !
+      !
+      line console
+       exec-timeout 0 0
+       absolute-timeout 0
+       session-timeout 0
+      !
+      line default
+       exec-timeout 0 0
+       absolute-timeout 0
+       session-timeout 0
+      !
+      control-plane
+       management-plane
+        out-of-band
+         vrf M
+         interface MgmtEth0/RP0/CPU0/0
+          allow SSH
+          allow SSH peer
+           address ipv4 10.0.0.0/8
+           address ipv4 172.0.0.0/8
+           address ipv4 192.0.0.0/8
+          !
+          allow Telnet
+          allow Telnet peer
+           address ipv4 10.0.0.0/8
+           address ipv4 172.0.0.0/8
+           address ipv4 192.0.0.0/8
+          !
+         !
+        !
+       !
+      !
+      interface Loopback0
+       ipv4 address 10.0.0.1 255.255.255.255
+       ipv6 address fc00:10::1/128
+      !
+      interface GigabitEthernet0/0/0/0
+       no shutdown
+       description TO_CORE_02
+       ipv4 address 10.1.12.1 255.255.255.0
+       ipv6 address 2001:10:1:12::1/64
+      !
+      interface GigabitEthernet0/0/0/1
+       no shutdown
+       description TO_l3edge_01
+       ipv4 address 10.1.13.1 255.255.255.0
+       ipv6 address 2001:10:1:13::1/64
+      !
+      interface GigabitEthernet0/0/0/2
+       no shutdown
+       description TO_l3edge_02
+       ipv4 address 10.1.14.1 255.255.255.0
+       ipv6 address 2001:10:1:14::1/64
+      !
+      ssh server v2
+      end
+
+    image_definition: iosxrv9000-7-2-1
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: MgmtEth0/RP0/CPU0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: donotuse1
+        type: physical
+      - id: i3
+        slot: 2
+        label: donotuse2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/0/0/0
+        type: physical
+      - id: i5
+        slot: 4
+        label: GigabitEthernet0/0/0/1
+        type: physical
+      - id: i6
+        slot: 5
+        label: GigabitEthernet0/0/0/2
+        type: physical
+  - id: n1
+    label: xr9kv-1
+    node_definition: iosxrv9000
+    x: -250
+    y: 100
+    configuration: |+
+      hostname core_02
+      !
+      username virl
+       group root-lr
+       group cisco-support
+       password virl
+      !
+      vrf M
+       address-family ipv4 unicast
+       !
+      !
+      interface MgmtEth0/RP0/CPU0/0
+       no shutdown
+       vrf M
+       ipv4 address 172.16.1.62 255.255.255.0
+      !
+      router static
+       vrf M
+        address-family ipv4 unicast
+         0.0.0.0/0 172.16.1.1
+        !
+       !
+      !
+      line console
+       exec-timeout 0 0
+       absolute-timeout 0
+       session-timeout 0
+      !
+      line default
+       exec-timeout 0 0
+       absolute-timeout 0
+       session-timeout 0
+      !
+      control-plane
+       management-plane
+        out-of-band
+         vrf M
+         interface MgmtEth0/RP0/CPU0/0
+          allow SSH
+          allow SSH peer
+           address ipv4 10.0.0.0/8
+           address ipv4 172.0.0.0/8
+           address ipv4 192.0.0.0/8
+          !
+          allow Telnet
+          allow Telnet peer
+           address ipv4 10.0.0.0/8
+           address ipv4 172.0.0.0/8
+           address ipv4 192.0.0.0/8
+          !
+         !
+        !
+       !
+      !
+      interface Loopback0
+       ipv4 address 10.0.0.2 255.255.255.255
+       ipv6 address fc00:10::2/128
+      !
+      interface GigabitEthernet0/0/0/0
+       no shutdown
+       description TO_CORE_01
+       ipv4 address 10.1.12.2 255.255.255.0
+       ipv6 address 2001:10:1:12::2/64
+      !
+      interface GigabitEthernet0/0/0/1
+       no shutdown
+       description TO_l3edge_01
+       ipv4 address 10.1.23.2 255.255.255.0
+       ipv6 address 2001:10:1:23::2/64
+      !
+      interface GigabitEthernet0/0/0/2
+       no shutdown
+       description TO_l3edge_02
+       ipv4 address 10.1.24.2 255.255.255.0
+       ipv6 address 2001:10:1:24::2/64
+      !
+      ssh server v2
+      end
+
+
+
+
+    image_definition: iosxrv9000-7-2-1
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: MgmtEth0/RP0/CPU0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: donotuse1
+        type: physical
+      - id: i3
+        slot: 2
+        label: donotuse2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/0/0/0
+        type: physical
+      - id: i5
+        slot: 4
+        label: GigabitEthernet0/0/0/1
+        type: physical
+      - id: i6
+        slot: 5
+        label: GigabitEthernet0/0/0/2
+        type: physical
+  - id: n2
+    label: xr9kv-2
+    node_definition: iosxrv9000
+    x: -500
+    y: 0
+    configuration: |-
+      hostname l3edge_01
+      !
+      username virl
+       group root-lr
+       group cisco-support
+       secret virl
+      !
+      vrf M
+       address-family ipv4 unicast
+      !
+      interface MgmtEth0/RP0/CPU0/0
+       no shutdown
+       vrf M
+       ipv4 address 172.16.1.63 255.255.255.0
+      !
+      router static
+       vrf M
+        address-family ipv4 unicast
+         0.0.0.0/0 172.16.1.1
+        !
+       !
+      !
+      line console
+       exec-timeout 0 0
+       absolute-timeout 0
+       session-timeout 0
+      !
+      line default
+       exec-timeout 0 0
+       absolute-timeout 0
+       session-timeout 0
+      !
+      control-plane
+       management-plane
+        out-of-band
+         vrf M
+         interface MgmtEth0/RP0/CPU0/0
+          allow SSH
+          allow SSH peer
+           address ipv4 10.0.0.0/8
+           address ipv4 172.0.0.0/8
+           address ipv4 192.0.0.0/8
+          !
+          allow Telnet
+          allow Telnet peer
+           address ipv4 10.0.0.0/8
+           address ipv4 172.0.0.0/8
+           address ipv4 192.0.0.0/8
+          !
+         !
+        !
+       !
+      !
+      interface Loopback0
+       ipv4 address 10.0.0.3 255.255.255.255
+       ipv6 address fc00:10::3/128
+      !
+      interface GigabitEthernet0/0/0/0
+       no shutdown
+       description TO_CORE_01
+       ipv4 address 10.1.13.3 255.255.255.0
+       ipv6 address 2001:10:1:13::3/64
+      !
+      interface GigabitEthernet0/0/0/1
+       no shutdown
+       description TO_CORE_02
+       ipv4 address 10.1.23.3 255.255.255.0
+       ipv6 address 2001:10:1:23::3/64
+      !
+      vrf A
+       address-family ipv4 unicast
+        import route-target
+         65432:192
+        !
+        export route-target
+         65432:192
+        !
+       !
+       address-family ipv6 unicast
+        import route-target
+         65432:192
+        !
+        export route-target
+         65432:192
+        !
+       !
+      !
+      vrf B
+       address-family ipv4 unicast
+        import route-target
+         65432:172
+        !
+        export route-target
+         65432:172
+        !
+       !
+       address-family ipv6 unicast
+        import route-target
+         65432:172
+        !
+        export route-target
+         65432:172
+        !
+       !
+      !
+      interface Loopback1
+       vrf A
+       ipv4 address 192.168.3.3 255.255.255.255
+       ipv6 address 2001:192:168:3::3/128
+      !
+      interface Loopback2
+       vrf B
+       ipv4 address 172.16.3.3 255.255.255.255
+       ipv6 address 2001:172:16:3::3/128
+      !
+      interface GigabitEthernet0/0/0/2
+       no shutdown
+      !
+      interface GigabitEthernet0/0/0/2.192
+       encapsulation dot1q 192
+       vrf A
+       ipv4 address 192.168.35.3 255.255.255.0
+       ipv6 address 2001:192:168:35::3/64
+      !
+      interface GigabitEthernet0/0/0/2.172
+       encapsulation dot1q 172
+       vrf B
+       ipv4 address 172.16.35.3 255.255.255.0
+       ipv6 address 2001:172:16:35::3/64
+      !
+      router static
+       vrf A
+        address-family ipv4 unicast
+         192.168.5.0/24 192.168.35.5
+        !
+       !
+       vrf B
+        address-family ipv4 unicast
+         172.16.5.0/24 172.16.35.5
+        !
+       !
+      !
+      ssh server v2
+      end
+
+    image_definition: iosxrv9000-7-2-1
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: MgmtEth0/RP0/CPU0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: donotuse1
+        type: physical
+      - id: i3
+        slot: 2
+        label: donotuse2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/0/0/0
+        type: physical
+      - id: i5
+        slot: 4
+        label: GigabitEthernet0/0/0/1
+        type: physical
+      - id: i6
+        slot: 5
+        label: GigabitEthernet0/0/0/2
+        type: physical
+      - id: i7
+        slot: 6
+        label: GigabitEthernet0/0/0/3
+        type: physical
+      - id: i8
+        slot: 7
+        label: GigabitEthernet0/0/0/4
+        type: physical
+      - id: i9
+        slot: 8
+        label: GigabitEthernet0/0/0/5
+        type: physical
+  - id: n3
+    label: xr9kv-3
+    node_definition: iosxrv9000
+    x: 0
+    y: 0
+    configuration: |
+      hostname l3edge_02
+      !
+      username virl
+       group root-lr
+       group cisco-support
+       secret virl
+      !
+      vrf M
+       address-family ipv4 unicast
+      !
+      interface MgmtEth0/RP0/CPU0/0
+       no shutdown
+       vrf M
+       ipv4 address 172.16.1.64 255.255.255.0
+      !
+      router static
+       vrf M
+        address-family ipv4 unicast
+         0.0.0.0/0 172.16.1.1
+        !
+       !
+      !
+      line console
+       exec-timeout 0 0
+       absolute-timeout 0
+       session-timeout 0
+      !
+      line default
+       exec-timeout 0 0
+       absolute-timeout 0
+       session-timeout 0
+      !
+      control-plane
+       management-plane
+        out-of-band
+         vrf M
+         interface MgmtEth0/RP0/CPU0/0
+          allow SSH
+          allow SSH peer
+           address ipv4 10.0.0.0/8
+           address ipv4 172.0.0.0/8
+           address ipv4 192.0.0.0/8
+          !
+          allow Telnet
+          allow Telnet peer
+           address ipv4 10.0.0.0/8
+           address ipv4 172.0.0.0/8
+           address ipv4 192.0.0.0/8
+          !
+         !
+        !
+       !
+      !
+      interface Loopback0
+       ipv4 address 10.0.0.4 255.255.255.255
+       ipv6 address fc00:10::4/128
+      !
+      interface GigabitEthernet0/0/0/0
+       no shutdown
+       description TO_CORE_01
+       ipv4 address 10.1.14.4 255.255.255.0
+       ipv6 address 2001:10:1:14::4/64
+      !
+      interface GigabitEthernet0/0/0/1
+       no shutdown
+       description TO_CORE_02
+       ipv4 address 10.1.24.4 255.255.255.0
+       ipv6 address 2001:10:1:24::4/64
+      !
+      vrf A
+       address-family ipv4 unicast
+        import route-target
+         65432:192
+        !
+        export route-target
+         65432:192
+        !
+       !
+       address-family ipv6 unicast
+        import route-target
+         65432:192
+        !
+        export route-target
+         65432:192
+        !
+       !
+      !
+      vrf B
+       address-family ipv4 unicast
+        import route-target
+         65432:172
+        !
+        export route-target
+         65432:172
+        !
+       !
+       address-family ipv6 unicast
+        import route-target
+         65432:172
+        !
+        export route-target
+         65432:172
+        !
+       !
+      !
+      interface Loopback1
+       vrf A
+       ipv4 address 192.168.4.4 255.255.255.255
+       ipv6 address 2001:192:168:4::4/128
+      !
+      interface Loopback2
+       vrf B
+       ipv4 address 172.16.4.4 255.255.255.255
+       ipv6 address 2001:172:16:4::4/128
+      !
+      interface GigabitEthernet0/0/0/2
+       no shutdown
+      !
+      interface GigabitEthernet0/0/0/2.192
+       encapsulation dot1q 192
+       vrf A
+       ipv4 address 192.168.46.4 255.255.255.0
+       ipv6 address 2001:192:168:46::4/64
+      !
+      interface GigabitEthernet0/0/0/2.172
+       encapsulation dot1q 172
+       vrf B
+       ipv4 address 172.16.46.4 255.255.255.0
+       ipv6 address 2001:172:16:46::4/64
+      !
+      router static
+       vrf A
+        address-family ipv4 unicast
+         192.168.6.0/24 192.168.46.6
+        !
+       !
+       vrf B
+        address-family ipv4 unicast
+         172.16.6.0/24 172.16.46.6
+        !
+       !
+      !
+      ssh server v2
+      end
+    image_definition: iosxrv9000-7-2-1
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: MgmtEth0/RP0/CPU0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: donotuse1
+        type: physical
+      - id: i3
+        slot: 2
+        label: donotuse2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/0/0/0
+        type: physical
+      - id: i5
+        slot: 4
+        label: GigabitEthernet0/0/0/1
+        type: physical
+      - id: i6
+        slot: 5
+        label: GigabitEthernet0/0/0/2
+        type: physical
+      - id: i7
+        slot: 6
+        label: GigabitEthernet0/0/0/3
+        type: physical
+      - id: i8
+        slot: 7
+        label: GigabitEthernet0/0/0/4
+        type: physical
+      - id: i9
+        slot: 8
+        label: GigabitEthernet0/0/0/5
+        type: physical
+  - id: n4
+    label: unmanaged-switch-0
+    node_definition: unmanaged_switch
+    x: -250
+    y: -100
+    configuration: ''
+    tags: []
+    interfaces:
+      - id: i0
+        slot: 0
+        label: port0
+        type: physical
+      - id: i1
+        slot: 1
+        label: port1
+        type: physical
+      - id: i2
+        slot: 2
+        label: port2
+        type: physical
+      - id: i3
+        slot: 3
+        label: port3
+        type: physical
+      - id: i4
+        slot: 4
+        label: port4
+        type: physical
+      - id: i5
+        slot: 5
+        label: port5
+        type: physical
+      - id: i6
+        slot: 6
+        label: port6
+        type: physical
+      - id: i7
+        slot: 7
+        label: port7
+        type: physical
+  - id: n5
+    label: ext-conn-0
+    node_definition: external_connector
+    x: -250
+    y: -200
+    configuration: bridge0
+    tags: []
+    interfaces:
+      - id: i0
+        slot: 0
+        label: port
+        type: physical
+  - id: n6
+    label: iosvl2-0
+    node_definition: iosvl2
+    x: -650
+    y: 0
+    configuration: |-
+      Building configuration...
+
+      Current configuration : 3576 bytes
+      !
+      ! Last configuration change at 21:46:14 UTC Mon May 3 2021
+      !
+      version 15.2
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      no service password-encryption
+      service compress-config
+      !
+      hostname l3ce_01
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      vrf definition A
+       rd 65432:192
+       !
+       address-family ipv4
+       exit-address-family
+      !
+      vrf definition B
+       rd 65432:172
+       !
+       address-family ipv4
+       exit-address-family
+      !
+      no logging console
+      !
+      no aaa new-model
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      no ip domain-lookup
+      ip cef
+      no ipv6 cef
+      !
+      !
+      !
+      spanning-tree mode pvst
+      spanning-tree extend system-id
+      vtp mode transparent
+      vlan 172,192
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback1
+       vrf forwarding A
+       ip address 192.168.5.5 255.255.255.255
+      !
+      interface Loopback2
+       vrf forwarding B
+       ip address 172.16.5.5 255.255.255.255
+      !
+      interface GigabitEthernet0/0
+       switchport trunk encapsulation dot1q
+       switchport mode trunk
+       negotiation auto
+      !
+      interface GigabitEthernet0/1
+       negotiation auto
+      !
+      interface GigabitEthernet0/2
+       negotiation auto
+      !
+      interface GigabitEthernet0/3
+       negotiation auto
+      !
+      interface Vlan172
+       no shutdown
+       vrf forwarding B
+       ip address 172.16.35.5 255.255.255.0
+      !
+      interface Vlan192
+       no shutdown
+       vrf forwarding A
+       ip address 192.168.35.5 255.255.255.0
+      !
+      ip forward-protocol nd
+      !
+      ip http server
+      ip http secure-server
+      !
+      ip route vrf A 0.0.0.0 0.0.0.0 192.168.35.3
+      ip route vrf B 0.0.0.0 0.0.0.0 172.16.35.3
+      ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+      ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      banner exec ^CC
+      **************************************************************************
+      * IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+      * education. IOSv is provided as-is and is not supported by Cisco's      *
+      * Technical Advisory Center. Any use or disclosure, in whole or in part, *
+      * of the IOSv Software or Documentation to any third party for any       *
+      * purposes is expressly prohibited except as otherwise authorized by     *
+      * Cisco in writing.                                                      *
+      **************************************************************************^C
+      banner incoming ^CC
+      **************************************************************************
+      * IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+      * education. IOSv is provided as-is and is not supported by Cisco's      *
+      * Technical Advisory Center. Any use or disclosure, in whole or in part, *
+      * of the IOSv Software or Documentation to any third party for any       *
+      * purposes is expressly prohibited except as otherwise authorized by     *
+      * Cisco in writing.                                                      *
+      **************************************************************************^C
+      banner login ^CC
+      **************************************************************************
+      * IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+      * education. IOSv is provided as-is and is not supported by Cisco's      *
+      * Technical Advisory Center. Any use or disclosure, in whole or in part, *
+      * of the IOSv Software or Documentation to any third party for any       *
+      * purposes is expressly prohibited except as otherwise authorized by     *
+      * Cisco in writing.                                                      *
+      **************************************************************************^C
+      !
+      line con 0
+       exec-timeout 0 0
+       privilege level 15
+       logging synchronous
+       transport preferred none
+      line aux 0
+      line vty 0 4
+       privilege level 15
+       logging synchronous
+       login local
+       transport preferred none
+       transport input all
+      !
+      !
+      end
+    image_definition: iosvl2-2019
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet0/1
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet0/2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/3
+        type: physical
+  - id: n7
+    label: iosvl2-1
+    node_definition: iosvl2
+    x: 200
+    y: 0
+    configuration: |-
+      Building configuration...
+
+      Current configuration : 3556 bytes
+      !
+      ! Last configuration change at 21:45:11 UTC Mon May 3 2021
+      !
+      version 15.2
+      service timestamps debug datetime msec
+      service timestamps log datetime msec
+      no service password-encryption
+      service compress-config
+      !
+      hostname l3ce_02
+      !
+      boot-start-marker
+      boot-end-marker
+      !
+      !
+      vrf definition A
+       rd 65432:192
+       !
+       address-family ipv4
+       exit-address-family
+      !
+      vrf definition B
+       rd 65432:172
+       !
+       address-family ipv4
+       exit-address-family
+      !
+      no logging console
+      !
+      no aaa new-model
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      ip cef
+      no ipv6 cef
+      !
+      !
+      !
+      spanning-tree mode pvst
+      spanning-tree extend system-id
+      vtp mode transparent
+      vlan 172,192
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      !
+      interface Loopback1
+       vrf forwarding A
+       ip address 192.168.6.6 255.255.255.255
+      !
+      interface Loopback2
+       vrf forwarding B
+       ip address 172.16.6.6 255.255.255.255
+      !
+      interface GigabitEthernet0/0
+       switchport trunk encapsulation dot1q
+       switchport mode trunk
+       negotiation auto
+      !
+      interface GigabitEthernet0/1
+       negotiation auto
+      !
+      interface GigabitEthernet0/2
+       negotiation auto
+      !
+      interface GigabitEthernet0/3
+       negotiation auto
+      !
+      interface Vlan172
+       no shutdown
+       vrf forwarding B
+       ip address 172.16.46.6 255.255.255.0
+      !
+      interface Vlan192
+       no shutdown
+       vrf forwarding A
+       ip address 192.168.46.6 255.255.255.0
+      !
+      ip forward-protocol nd
+      !
+      ip http server
+      ip http secure-server
+      !
+      ip route vrf A 0.0.0.0 0.0.0.0 192.168.46.4
+      ip route vrf B 0.0.0.0 0.0.0.0 172.16.46.4
+      ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+      ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+      !
+      !
+      !
+      !
+      !
+      !
+      control-plane
+      !
+      banner exec ^CC
+      **************************************************************************
+      * IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+      * education. IOSv is provided as-is and is not supported by Cisco's      *
+      * Technical Advisory Center. Any use or disclosure, in whole or in part, *
+      * of the IOSv Software or Documentation to any third party for any       *
+      * purposes is expressly prohibited except as otherwise authorized by     *
+      * Cisco in writing.                                                      *
+      **************************************************************************^C
+      banner incoming ^CC
+      **************************************************************************
+      * IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+      * education. IOSv is provided as-is and is not supported by Cisco's      *
+      * Technical Advisory Center. Any use or disclosure, in whole or in part, *
+      * of the IOSv Software or Documentation to any third party for any       *
+      * purposes is expressly prohibited except as otherwise authorized by     *
+      * Cisco in writing.                                                      *
+      **************************************************************************^C
+      banner login ^CC
+      **************************************************************************
+      * IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+      * education. IOSv is provided as-is and is not supported by Cisco's      *
+      * Technical Advisory Center. Any use or disclosure, in whole or in part, *
+      * of the IOSv Software or Documentation to any third party for any       *
+      * purposes is expressly prohibited except as otherwise authorized by     *
+      * Cisco in writing.                                                      *
+      **************************************************************************^C
+      !
+      line con 0
+       exec-timeout 0 0
+       privilege level 15
+       logging synchronous
+       transport preferred none
+      line aux 0
+      line vty 0 4
+       privilege level 15
+       logging synchronous
+       login local
+       transport preferred none
+       transport input all
+      !
+      !
+      end
+    image_definition: iosvl2-2019
+    tags: []
+    interfaces:
+      - id: i0
+        label: Loopback0
+        type: loopback
+      - id: i1
+        slot: 0
+        label: GigabitEthernet0/0
+        type: physical
+      - id: i2
+        slot: 1
+        label: GigabitEthernet0/1
+        type: physical
+      - id: i3
+        slot: 2
+        label: GigabitEthernet0/2
+        type: physical
+      - id: i4
+        slot: 3
+        label: GigabitEthernet0/3
+        type: physical
+links:
+  - id: l0
+    i1: i0
+    n1: n4
+    i2: i0
+    n2: n5
+  - id: l1
+    i1: i1
+    n1: n0
+    i2: i1
+    n2: n4
+  - id: l2
+    i1: i1
+    n1: n1
+    i2: i2
+    n2: n4
+  - id: l3
+    i1: i1
+    n1: n2
+    i2: i3
+    n2: n4
+  - id: l4
+    i1: i1
+    n1: n3
+    i2: i4
+    n2: n4
+  - id: l5
+    i1: i4
+    n1: n0
+    i2: i4
+    n2: n1
+  - id: l6
+    i1: i5
+    n1: n0
+    i2: i4
+    n2: n2
+  - id: l7
+    i1: i6
+    n1: n0
+    i2: i4
+    n2: n3
+  - id: l8
+    i1: i5
+    n1: n1
+    i2: i5
+    n2: n2
+  - id: l9
+    i1: i6
+    n1: n1
+    i2: i5
+    n2: n3
+  - id: l10
+    i1: i6
+    n1: n2
+    i2: i1
+    n2: n6
+  - id: l11
+    i1: i6
+    n1: n3
+    i2: i1
+    n2: n7

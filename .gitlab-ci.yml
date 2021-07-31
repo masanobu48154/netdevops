@@ -1,0 +1,308 @@
+stages:
+    - pre_build
+    - build
+    - prepare_ssh
+    - test_cml_nodes
+    - pre_config_test_01
+    - interface_shut
+    - pre_config_test_02
+    - interface_unshut
+    - pre_config_test_03
+    - configuration
+    - post_config_test
+    - collect_difference
+    - check
+    - deploy
+cache:
+    paths:
+        - logs/**/*
+rm_log:
+    stage: pre_build
+    allow_failure: true
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - rm logs/ops_before/routing/*
+        - rm logs/ops_before/bgp/*
+        - rm logs/ops_before/isis/*
+        - rm logs/ops_after/routing/*
+        - rm logs/ops_after/bgp/*
+        - rm logs/ops_after/isis/*
+        #- rm logs/send_msg/*
+        #- sudo rm /tmp/*
+        - echo "CML is stoped!! Go to next stage!!"
+validate_testbed:
+    stage: pre_build
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - pyats validate testbed ./testbed/testbed.yaml
+        - echo "Testbed was validated!!"
+cml_stop:
+    stage: pre_build
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./rest/cml_stop.py
+        - echo "stop cml"
+        - echo "CML is stoped!! Go to next stage!!"
+cml_start:
+    stage: build
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./rest/cml_start.py
+        - echo "start cml"
+        - echo "CML is started!!"
+prepare_ssh_to_cml_nodes:
+    stage: prepare_ssh
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        #- ansible-playbook -i inventory prepare_ssh_playbook.yml
+        #- echo "You can connect to cml nodes by ssh!! Go to next stage!!"
+        - echo "This lab do not need to prepare ssh because iosxrv9k is used!!"
+10minutes:
+    stage: prepare_ssh
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - echo "Wait 10 minutes"
+#        - sleep 600
+connect_cml_core_01:
+    stage: test_cml_nodes
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/connect_xr_test/connect_core_01.py
+        - echo "Connect cml core_01 !!"
+connect_cml_core_02:
+    stage: test_cml_nodes
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/connect_xr_test/connect_core_02.py
+        - echo "Connect cml core_02 !!"
+connect_cml_l3edge_01:
+    stage: test_cml_nodes
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/connect_xr_test/connect_l3edge_01.py
+        - echo "Connect cml l3edge_01 !!"
+connect_cml_l3edge_02:
+    stage: test_cml_nodes
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/connect_xr_test/connect_l3edge_01.py
+        - echo "Connect cml l3edge_02 !!"
+ping_test_01:
+    stage: pre_config_test_01
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/get_ping.py l3edge_01 10.0.0.3 10.0.0.4
+sr_mpls_sid_test_01:
+    stage: pre_config_test_01
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/get_traceroute_label.py l3edge_01 10.0.0.4 16004
+interface_shutdown:
+    stage: interface_shut
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/conf_interface_shut.py l3edge_01 gigabitEthernet0/0/0/0 
+ping_test_02:
+    stage: pre_config_test_02
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/get_ping.py l3edge_01 10.0.0.3 10.0.0.4
+sr_mpls_sid_test_02:
+    stage: pre_config_test_02
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/get_traceroute_label.py l3edge_01 10.0.0.4 16004
+interface_unshutdown:
+    stage: interface_unshut
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/conf_interface_noshut.py l3edge_01 gigabitEthernet0/0/0/0
+ping_test_03:
+    stage: pre_config_test_03
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/get_ping.py l3edge_01 10.0.0.3 10.0.0.4
+sr_mpls_sid_test_03:
+    stage: pre_config_test_03
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/get_traceroute_label.py l3edge_01 10.0.0.4 16004
+collect_all_nodes_routing:
+    stage: pre_config_test_03
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - genie learn 'routing' --testbed-file ./testbed/testbed.yaml --output ./logs/ops_before/routing    
+        - genie learn 'bgp' --testbed-file ./testbed/testbed.yaml --output ./logs/ops_before/bgp
+        - genie learn 'isis' --testbed-file ./testbed/testbed.yaml --output ./logs/ops_before/isis
+        - echo "Collect logs from all nodes before configuration change !!"
+        - python3 ./rest/send_before_log_to_webex.py
+core_01_configuration:
+    stage: configuration
+    only:
+        changes:
+            - testbed/**/*
+            - roles/core_01/**/*
+    script:
+        - export ANSIBLE_HOST_KEY_CHECKING=False && ansible-playbook -i inventory core_01_playbook.yml
+        - echo "core_01 configured !!"
+core_02_configuration:
+    stage: configuration
+    only:
+        changes:
+            - testbed/**/*
+            - roles/core_02/**/*
+    script:
+        - export ANSIBLE_HOST_KEY_CHECKING=False && ansible-playbook -i inventory core_02_playbook.yml
+        - echo "core_02 configured !!"
+l3edge_01_configuration:
+    stage: configuration
+    only:
+        changes:
+            - testbed/**/*
+            - roles/l3edge_01/**/*
+    script:
+        - export ANSIBLE_HOST_KEY_CHECKING=False && ansible-playbook -i inventory l3edge_01_playbook.yml
+        - echo "l3edge_01 configured !!"
+l3edge_02_configuration:
+    stage: configuration
+    only:
+        changes:
+            - testbed/**/*
+            - roles/l3edge_02/**/*
+    script:
+        - export ANSIBLE_HOST_KEY_CHECKING=False && ansible-playbook -i inventory l3edge_02_playbook.yml
+        - echo "l3edge_02 configured !!"
+test_srv6_sid:
+    stage: post_config_test
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/get_srv6_sid.py l3edge_01 fc00:cafe:4:4 
+collect_all_nodes_logs_after_configuration:
+    stage: post_config_test
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - genie learn 'routing' --testbed-file ./testbed/testbed.yaml --output ./logs/ops_after/routing 
+        - genie learn 'bgp' --testbed-file ./testbed/testbed.yaml --output ./logs/ops_after/bgp
+        - genie learn 'isis' --testbed-file ./testbed/testbed.yaml --output ./logs/ops_after/isis
+        - echo "Collect logs from all nodes after configuration change !!"
+        - python3 ./rest/send_after_log_to_webex.py
+genie_diff:
+    stage: collect_difference
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - genie diff ./logs/ops_before/routing ./logs/ops_after/routing
+        - genie diff ./logs/ops_before/routing ./logs/ops_after/routing > ./logs/ops_after/routing/diff_result.log
+        - echo "Seached Routing Difference !!"
+        - genie diff ./logs/ops_before/bgp ./logs/ops_after/bgp
+        - genie diff ./logs/ops_before/bgp ./logs/ops_after/bgp > ./logs/ops_after/bgp/diff_result.log
+        - echo "Seached BGP Difference !!"
+        - genie diff ./logs/ops_before/isis ./logs/ops_after/isis
+        - genie diff ./logs/ops_before/isis ./logs/ops_after/isis > ./logs/ops_after/isis/diff_result.log
+        - echo "Seached ISIS Difference !!"
+check:
+    stage: check
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - python3 ./test/search_result.py
+        - python3 ./rest/send_diff_result.py
+deploy:
+    stage: deploy
+    only:
+        changes:
+            - testbed/**/*
+            - roles/**/*
+            - .gitlab-ci.yml
+    script:
+        - echo "Deproy!!!!"

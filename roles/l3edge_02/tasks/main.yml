@@ -1,0 +1,8 @@
+---
+
+- name: ios_config
+  iosxr_config:
+    src: config.txt
+    provider: "{{ cli }}"
+  register: result
+

@@ -1,0 +1,24 @@
+mpls traffic-eng tunnels
+interface GigabitEthernet1
+ mpls traffic-eng tunnels
+interface GigabitEthernet2
+ mpls traffic-eng tunnels
+interface GigabitEthernet3
+ mpls traffic-eng tunnels
+router ospf 100
+ mpls traffic-eng router-id Loopback0
+ mpls traffic-eng area 0
+ip explicit-path name virl
+ index 10 next-label 16004
+ index 20 next-label 16002
+ index 30 next-label 16001
+ index 40 next-label 16005
+ index 50 next-label 16006
+interface Tunnel100
+ ip unnumbered Loopback0
+ tunnel source Loopback0
+ tunnel mode mpls traffic-eng
+ tunnel destination 10.0.0.6
+ tunnel mpls traffic-eng autoroute announce
+ tunnel mpls traffic-eng path-option 1 explicit name virl segment-routing
+
