@@ -1,9 +1,10 @@
 #!user/bin/python
 
 from logging import Formatter, getLogger, StreamHandler, DEBUG
-import webex_msg
 import sys
 sys.path.append('./rest')
+import webex_msg
+
 
 logger = getLogger("send_log_webex.")
 logger.setLevel(DEBUG)

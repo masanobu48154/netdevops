@@ -1,10 +1,10 @@
 #!user/bin/python
 
 from logging import Formatter, getLogger, StreamHandler, DEBUG, WARNING
-import webex_msg
 import env
 import sys
 sys.path.append('./rest')
+import webex_msg
 
 
 logger = getLogger("send_diff_check")

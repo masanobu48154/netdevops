@@ -8,6 +8,7 @@ import sys
 sys.path.append('./rest')
 import webex_msg
 
+
 parser = argparse.ArgumentParser()
 parser.add_argument("device", help="Device name")
 parser.add_argument("target_address", help="Target address(10.0.0.4 etc...)")

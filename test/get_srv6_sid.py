@@ -1,12 +1,13 @@
 #!user/bin/python
 
 from logging import Formatter, getLogger, StreamHandler, DEBUG
-import webex_msg
 import argparse
 from genie import testbed
 from module import test_mod
 import sys
 sys.path.append('./rest')
+import webex_msg
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("device", help="Target Device name")
